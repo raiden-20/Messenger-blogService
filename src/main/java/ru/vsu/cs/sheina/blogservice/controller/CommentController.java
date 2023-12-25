@@ -20,6 +20,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/create")
+    @CrossOrigin
     public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO,
                                            @RequestHeader("Authorization") String token) {
         commentService.createComment(commentCreateDTO, token);
@@ -27,6 +28,7 @@ public class CommentController {
     }
 
     @PutMapping()
+    @CrossOrigin
     public ResponseEntity<?> editComment(@RequestBody CommentUpdateDTO commentUpdateDTO,
                                            @RequestHeader("Authorization") String token) {
         commentService.editComment(commentUpdateDTO, token);
@@ -34,6 +36,7 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getCommentsOnPost(@PathVariable Integer id,
                                                @RequestHeader("Authorization") String token) {
         List<CommentDTO> comments = commentService.getCommentsOnPost(id, token);
@@ -41,6 +44,7 @@ public class CommentController {
     }
 
     @PutMapping("/like")
+    @CrossOrigin
     public ResponseEntity<?> likeComment(@RequestBody CommentLikeDTO commentLikeDTO,
                                          @RequestHeader("Authorization") String token) {
         commentService.likeComment(commentLikeDTO, token);
@@ -48,6 +52,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<?> deleteComment(@PathVariable Integer id,
                                            @RequestHeader("Authorization") String token) {
         commentService.deleteComment(id, token);

@@ -18,12 +18,14 @@ public class PictureController {
     private final PostService postService;
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getAllPictureUrls(@PathVariable UUID id) {
         List<PictureDTO> pictureDtos = postService.getAllUserPictures(id);
         return new ResponseEntity<>(pictureDtos, HttpStatus.OK);
     }
 
     @GetMapping("/count/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getCountPictures(@PathVariable UUID id) {
         Integer count = postService.getCountPictures(id);
         return new ResponseEntity<>(count, HttpStatus.OK);

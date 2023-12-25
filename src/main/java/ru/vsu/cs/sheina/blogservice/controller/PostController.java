@@ -21,6 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/user/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getAllPosts(@PathVariable UUID id,
                                          @RequestHeader("Authorization") String token) {
         List<PostDTO> posts = postService.getAllUsersPosts(id, token);
@@ -28,6 +29,7 @@ public class PostController {
     }
 
     @PostMapping("/post/create")
+    @CrossOrigin
     public ResponseEntity<?> createPost(@RequestBody PostCreateDTO postCreateDTO,
                                         @RequestHeader("Authorization") String token) {
         postService.createPost(postCreateDTO, token);
@@ -35,6 +37,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getPost(@PathVariable Integer id,
                                      @RequestHeader("Authorization") String token) {
         PostDTO postDTO = postService.getPost(id, token);
@@ -42,6 +45,7 @@ public class PostController {
     }
 
     @PutMapping("/post")
+    @CrossOrigin
     public ResponseEntity<?> editPost(@RequestBody PostUpdateDTO postUpdateDTO,
                                       @RequestHeader("Authorization") String token) {
         postService.editPost(postUpdateDTO, token);
@@ -49,6 +53,7 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{id}")
+    @CrossOrigin
     public ResponseEntity<?> deletePost(@PathVariable Integer id,
                                         @RequestHeader("Authorization") String token) {
         postService.deletePost(id, token);
@@ -56,6 +61,7 @@ public class PostController {
     }
 
     @PutMapping("/post/like")
+    @CrossOrigin
     public ResponseEntity<?> likePost(@RequestBody PostLikeDTO postLikeDTO,
                                       @RequestHeader("Authorization") String token) {
         postService.likePost(postLikeDTO, token);
