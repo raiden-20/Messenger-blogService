@@ -1,0 +1,19 @@
+server:
+  port: 8080
+jwt:
+  secret: ${JWT_SECRET}
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${BLOG_POSTGRES_URL}
+    username: ${BLOG_POSTGRES_USER}
+    password: ${BLOG_POSTGRES_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: true
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}

@@ -2,6 +2,7 @@ package ru.vsu.cs.sheina.blogservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.vsu.cs.sheina.blogservice.dto.rabbitmq.UrlDTO;
 import ru.vsu.cs.sheina.blogservice.dto.request.PostCreateDTO;
 import ru.vsu.cs.sheina.blogservice.dto.request.PostLikeDTO;
 import ru.vsu.cs.sheina.blogservice.dto.request.PostUpdateDTO;
@@ -97,8 +98,8 @@ public class PostService {
             postDTO.setIsLiked(false);
         }
 
-        List<String> photoUrl = postPhotoRepository.findAllByPostId(id).stream()
-                .map(PostPhotoEntity::getPhotoUrl)
+        List<PictureDTO> photoUrl = postPhotoRepository.findAllByPostId(id).stream()
+                .map(ent -> new PictureDTO(id, ent.getId(), ent.getPhotoUrl()))
                 .toList();
         postDTO.setPhotoUrl(photoUrl);
 
@@ -173,7 +174,7 @@ public class PostService {
         for (Integer postId: postIds) {
             List<PostPhotoEntity> photoEntities = postPhotoRepository.findAllByPostId(postId);
             for (PostPhotoEntity entity: photoEntities) {
-                pictureDtos.add(new PictureDTO(entity.getPostId(), entity.getPhotoUrl()));
+                pictureDtos.add(new PictureDTO(entity.getPostId(), entity.getId(), entity.getPhotoUrl()));
             }
         }
 
@@ -197,5 +198,16 @@ public class PostService {
         }
 
         return countPictures;
+    }
+
+    public void changeUrl(UrlDTO urlDTO) {
+        if (!urlDTO.getUrl().isEmpty()) {
+            PostPhotoEntity postPhotoEntity = new PostPhotoEntity();
+            postPhotoEntity.setPostId(Integer.valueOf(urlDTO.getSourceId()));
+            postPhotoEntity.setPhotoUrl(urlDTO.getUrl());
+            postPhotoRepository.save(postPhotoEntity);
+        } else {
+            postPhotoRepository.deleteById(urlDTO.getPhotoId());
+        }
     }
 }

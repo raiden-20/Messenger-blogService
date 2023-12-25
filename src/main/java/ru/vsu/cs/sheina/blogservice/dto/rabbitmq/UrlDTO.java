@@ -8,5 +8,5 @@ public class UrlDTO {
 
     String url;
 
-    FileSource source;
+    Integer photoId;
 }

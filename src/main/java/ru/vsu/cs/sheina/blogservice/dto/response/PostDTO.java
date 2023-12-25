@@ -12,7 +12,7 @@ public class PostDTO {
 
     String text;
 
-    List<String> photoUrl;
+    List<PictureDTO> photoUrl;
 
     Timestamp time;
 

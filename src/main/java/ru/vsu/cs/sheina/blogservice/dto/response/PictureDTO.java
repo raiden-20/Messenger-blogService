@@ -11,5 +11,7 @@ public class PictureDTO {
 
     Integer postId;
 
+    Integer photoId;
+
     String url;
 }
