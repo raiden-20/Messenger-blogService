@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class UrlDTO {
-    String sourceId;
-
     String url;
 
     Integer photoId;
+
+    Integer postId;
 }

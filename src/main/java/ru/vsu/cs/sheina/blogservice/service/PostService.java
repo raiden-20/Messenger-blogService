@@ -201,9 +201,9 @@ public class PostService {
     }
 
     public void changeUrl(UrlDTO urlDTO) {
-        if (!urlDTO.getUrl().isEmpty()) {
+        if (urlDTO.getPhotoId() != 0) {
             PostPhotoEntity postPhotoEntity = new PostPhotoEntity();
-            postPhotoEntity.setPostId(Integer.valueOf(urlDTO.getSourceId()));
+            postPhotoEntity.setPostId(urlDTO.getPostId());
             postPhotoEntity.setPhotoUrl(urlDTO.getUrl());
             postPhotoRepository.save(postPhotoEntity);
         } else {
