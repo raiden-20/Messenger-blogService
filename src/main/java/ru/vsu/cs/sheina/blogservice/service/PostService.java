@@ -202,12 +202,12 @@ public class PostService {
 
     public void changeUrl(UrlDTO urlDTO) {
         if (urlDTO.getPhotoId() != 0) {
+            postPhotoRepository.deleteById(urlDTO.getPhotoId());
+        } else {
             PostPhotoEntity postPhotoEntity = new PostPhotoEntity();
             postPhotoEntity.setPostId(urlDTO.getPostId());
             postPhotoEntity.setPhotoUrl(urlDTO.getUrl());
             postPhotoRepository.save(postPhotoEntity);
-        } else {
-            postPhotoRepository.deleteById(urlDTO.getPhotoId());
         }
     }
 }
