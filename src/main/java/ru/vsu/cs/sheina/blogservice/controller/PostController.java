@@ -32,8 +32,8 @@ public class PostController {
     @CrossOrigin
     public ResponseEntity<?> createPost(@RequestBody PostCreateDTO postCreateDTO,
                                         @RequestHeader("Authorization") String token) {
-        postService.createPost(postCreateDTO, token);
-        return ResponseEntity.ok("Post created successfully");
+        Integer postId = postService.createPost(postCreateDTO, token);
+        return new ResponseEntity<>(postId, HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")

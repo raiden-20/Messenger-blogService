@@ -37,7 +37,7 @@ public class PostService {
     private final JwtTokenUtil jwtTokenUtil;
     private final Integer MAX_POST_SIZE = 1000;
 
-    public void createPost(PostCreateDTO postCreateDTO, String token) {
+    public Integer createPost(PostCreateDTO postCreateDTO, String token) {
         UUID id = jwtTokenUtil.retrieveIdClaim(token);
 
         if ((postCreateDTO.getText().length() > MAX_POST_SIZE)) {
@@ -50,6 +50,8 @@ public class PostService {
         postEntity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         postRepository.save(postEntity);
+
+        return postEntity.getId();
     }
 
     public List<PostDTO>  getAllUsersPosts(UUID id, String token) {
