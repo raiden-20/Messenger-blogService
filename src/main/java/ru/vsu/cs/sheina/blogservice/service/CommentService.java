@@ -8,7 +8,6 @@ import ru.vsu.cs.sheina.blogservice.dto.request.CommentUpdateDTO;
 import ru.vsu.cs.sheina.blogservice.dto.response.CommentDTO;
 import ru.vsu.cs.sheina.blogservice.entity.CommentEntity;
 import ru.vsu.cs.sheina.blogservice.entity.CommentLikeEntity;
-import ru.vsu.cs.sheina.blogservice.entity.PostEntity;
 import ru.vsu.cs.sheina.blogservice.exception.AccessException;
 import ru.vsu.cs.sheina.blogservice.exception.CommentDoesntExistException;
 import ru.vsu.cs.sheina.blogservice.exception.PostDoesntExistException;
@@ -34,7 +33,7 @@ public class CommentService {
     private final CommentLikeRepository commentLikeRepository;
     private final Integer MAX_COMMENT_SIZE = 400;
 
-    public void createComment(CommentCreateDTO commentCreateDTO, String token) {
+    public Integer createComment(CommentCreateDTO commentCreateDTO, String token) {
         UUID userId = jwtTokenUtil.retrieveIdClaim(token);
 
         if(!postRepository.existsById(commentCreateDTO.getPostId())) {
@@ -53,6 +52,8 @@ public class CommentService {
         commentEntity.setChanged(false);
 
         commentRepository.save(commentEntity);
+
+        return commentEntity.getId();
     }
 
     public List<CommentDTO> getCommentsOnPost(Integer id, String token) {
@@ -83,11 +84,7 @@ public class CommentService {
         Integer likeCount = commentLikeRepository.countByCommentId(commentId);
         commentDTO.setLikeCount(likeCount);
 
-        if (commentLikeRepository.existsByCommentIdAndUserId(commentId, userId)) {
-            commentDTO.setIsLiked(true);
-        } else {
-            commentDTO.setIsLiked(false);
-        }
+        commentDTO.setIsLiked(commentLikeRepository.existsByCommentIdAndUserId(commentId, userId));
 
         return commentDTO;
     }

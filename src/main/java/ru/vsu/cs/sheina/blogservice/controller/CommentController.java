@@ -23,8 +23,8 @@ public class CommentController {
     @CrossOrigin
     public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO,
                                            @RequestHeader("Authorization") String token) {
-        commentService.createComment(commentCreateDTO, token);
-        return ResponseEntity.ok("Comment created successfully");
+        Integer commentId = commentService.createComment(commentCreateDTO, token);
+        return new ResponseEntity<>(commentId, HttpStatus.OK);
     }
 
     @PutMapping()
