@@ -73,11 +73,6 @@ public class PostService {
 
     public PostDTO getPost(Integer id, String token) {
         UUID userId = jwtTokenUtil.retrieveIdClaim(token);
-
-        if (! postRepository.existsById(id)) {
-            throw new PostDoesntExistException();
-        }
-
         return createPostDto(id, userId);
     }
 
