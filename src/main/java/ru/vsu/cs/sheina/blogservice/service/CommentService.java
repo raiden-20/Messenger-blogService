@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -119,13 +120,30 @@ public class CommentService {
         }
     }
 
-    public void deleteComment(Integer id, String token) {
+    public void deleteCommentById(Integer id, String token) {
         UUID userId = jwtTokenUtil.retrieveIdClaim(token);
         CommentEntity commentEntity = commentRepository.findById(id).orElseThrow(CommentDoesntExistException::new);
 
         if (!commentEntity.getUserId().equals(userId)) {
             throw new AccessException();
         }
+
+        if (commentLikeRepository.existsByCommentId(id)) {
+            commentLikeRepository.deleteAllByCommentId(id);
+        }
+
+        commentRepository.delete(commentEntity);
+    }
+
+    public void deleteCommentByPostId(Integer postId) {
+        List<Integer> commentIds = commentRepository.findAllByPostId(postId).stream()
+                .map(CommentEntity::getId)
+                .toList();
+        commentIds.forEach(this::deleteComment);
+    }
+
+    public void deleteComment(Integer id) {
+        CommentEntity commentEntity = commentRepository.findById(id).orElseThrow(CommentDoesntExistException::new);
 
         if (commentLikeRepository.existsByCommentId(id)) {
             commentLikeRepository.deleteAllByCommentId(id);

@@ -55,7 +55,7 @@ public class CommentController {
     @CrossOrigin
     public ResponseEntity<?> deleteComment(@PathVariable Integer id,
                                            @RequestHeader("Authorization") String token) {
-        commentService.deleteComment(id, token);
+        commentService.deleteCommentById(id, token);
         return ResponseEntity.ok("Comment deleted successfully");
     }
 }

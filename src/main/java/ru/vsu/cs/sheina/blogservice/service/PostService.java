@@ -8,6 +8,7 @@ import ru.vsu.cs.sheina.blogservice.dto.request.PostLikeDTO;
 import ru.vsu.cs.sheina.blogservice.dto.request.PostUpdateDTO;
 import ru.vsu.cs.sheina.blogservice.dto.response.PictureDTO;
 import ru.vsu.cs.sheina.blogservice.dto.response.PostDTO;
+import ru.vsu.cs.sheina.blogservice.entity.CommentEntity;
 import ru.vsu.cs.sheina.blogservice.entity.PostEntity;
 import ru.vsu.cs.sheina.blogservice.entity.PostLikeEntity;
 import ru.vsu.cs.sheina.blogservice.entity.PostPhotoEntity;
@@ -33,6 +34,7 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
     private final PostPhotoRepository postPhotoRepository;
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
     private final JwtTokenUtil jwtTokenUtil;
     private final Integer MAX_POST_SIZE = 1000;
@@ -134,6 +136,9 @@ public class PostService {
         }
         if (postLikeRepository.existsByPostId(id)) {
             postLikeRepository.deleteAllByPostId(id);
+        }
+        if (commentRepository.existsByPostId(id)) {
+            commentService.deleteCommentByPostId(id);
         }
 
         postRepository.delete(postEntity);
